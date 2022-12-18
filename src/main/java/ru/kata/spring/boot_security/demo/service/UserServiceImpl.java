@@ -1,0 +1,71 @@
+package ru.kata.spring.boot_security.demo.service;
+
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import ru.kata.spring.boot_security.demo.dao.UserDao;
+import ru.kata.spring.boot_security.demo.model.User;
+
+import java.util.List;
+
+@Service
+@Transactional(readOnly = true)
+public class UserServiceImpl implements UserService, UserDetailsService {
+
+
+    private final UserDao userDao;
+
+    public UserServiceImpl(UserDao userDao) {
+        this.userDao = userDao;
+    }
+
+    @Override
+    @Transactional
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = findUserByEmail(email);
+        if (user == null) {
+            throw new UsernameNotFoundException(String.format("User '%s' not found", email));
+        }
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), user.getAuthorities());
+    }
+
+    @Override
+    public User getUser(long id) {
+        return userDao.getUser(id);
+    }
+
+    @Override
+    public User findUserByEmail(String email) {
+        return userDao.findUserByEmail(email).orElse(null);
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return userDao.getAllUsers();
+    }
+
+    @Override
+    @Transactional
+    public void saveUser(User user) {
+        userDao.saveUser(user);
+    }
+
+    @Override
+    @Transactional
+    public void editUser(User user) {
+        userDao.editUser(user);
+    }
+
+    @Override
+    @Transactional
+    public void removeUserById(long id) {
+        userDao.removeUserById(id);
+    }
+
+    @Override
+    public void addRole(User user, String role) {
+        userDao.addRole(user, role);
+    }
+}
