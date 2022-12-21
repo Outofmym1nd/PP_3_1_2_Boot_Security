@@ -6,8 +6,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
@@ -40,15 +40,18 @@ public class User implements UserDetails{
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Collection<Role> roles;
+    private Set<Role> roles;
 
     public User() {
     }
 
-    public User(String name, String lastName, Byte age) {
+    public User(String password, String name, String lastName, Byte age, String email, Set<Role> roles) {
+        this.password = password;
         this.name = name;
         this.lastName = lastName;
         this.age = age;
+        this.email = email;
+        this.roles = roles;
     }
 
     public Long getId() {
@@ -133,7 +136,7 @@ public class User implements UserDetails{
         this.email = email;
     }
 
-    public Collection<Role> getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
@@ -145,7 +148,7 @@ public class User implements UserDetails{
                 .collect(Collectors.joining(", "));
     }
 
-    public void setRoles(List<Role> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 

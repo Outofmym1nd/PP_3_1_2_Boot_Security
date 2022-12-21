@@ -19,8 +19,4 @@ public interface UserDao {
     void editUser(User user);
 
     void removeUserById(long id);
-
-    void saveUserRole(User user, String role);
-
-    void addRole(User user, String role);
 }

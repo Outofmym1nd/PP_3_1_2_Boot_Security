@@ -45,9 +45,9 @@
         <td>
             <input type="text" th:field="*{password}" id="password"/>
         </td>
-        <td>
-            <input type="checkbox" name="role" value="ROLE_ADMIN"/>Admin<br>
-            <input type="checkbox" name="role" value="ROLE_USER" th:checked="true" style="opacity:0; position:absolute; left:9999px;"/>
+        <td th:each="role : ${setRoles}">
+            <input type="checkbox" name="setRoles" th:text="${role.toString()}" th:field="*{roles}"
+                   th:value="${role.getRole()}"/>
         </td>
         <td>
             <input type="submit" value="Save"/>
