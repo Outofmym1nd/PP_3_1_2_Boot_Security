@@ -1,6 +1,5 @@
 package ru.kata.spring.boot_security.demo.util;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
@@ -16,7 +15,6 @@ public class InitData {
     private final RoleService roleService;
     private final UserService userService;
 
-    @Autowired
     public InitData(RoleService roleService, UserService userService) {
         this.roleService = roleService;
         this.userService = userService;
