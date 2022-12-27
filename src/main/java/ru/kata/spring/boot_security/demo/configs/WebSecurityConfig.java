@@ -30,11 +30,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .formLogin().successHandler(successUserHandler)
-                .permitAll()
+                .formLogin()
+//                .loginPage("/login").permitAll()
+                .successHandler(successUserHandler).permitAll()
                 .and()
-                .logout()
-                .permitAll();
+                .logout().permitAll()
+                .logoutSuccessUrl("/");
     }
 
     @Bean

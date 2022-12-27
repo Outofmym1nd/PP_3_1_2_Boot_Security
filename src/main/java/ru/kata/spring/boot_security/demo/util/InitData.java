@@ -26,8 +26,8 @@ public class InitData {
         Role roleAdmin = new Role("ROLE_ADMIN");
         roleService.saveRole(roleUser);
         roleService.saveRole(roleAdmin);
-        User user = new User("1", "Ivan", "Ivanov", (byte) 20, "1", Set.of(roleUser));
-        User admin = new User("2", "Petr", "Petrov", (byte) 30, "2", Set.of(roleAdmin, roleUser));
+        User user = new User("1", "Ivan", "Ivanov", (byte) 20, "user@gmail.com", Set.of(roleUser));
+        User admin = new User("2", "Petr", "Petrov", (byte) 30, "admin@gmail.com", Set.of(roleAdmin, roleUser));
         userService.saveUser(user);
         userService.saveUser(admin);
     }

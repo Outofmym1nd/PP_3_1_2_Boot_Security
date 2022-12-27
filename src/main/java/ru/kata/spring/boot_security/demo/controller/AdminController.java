@@ -73,7 +73,7 @@ public class AdminController {
 
     private void setRoles(@ModelAttribute("user") User user) {
         Set<Role> roles = roleService.getDefaultRole(1L);
-        Set<String> roleNames = user.getRoles().stream().map(r -> r.getRole()).collect(Collectors.toSet());
+        Set<String> roleNames = user.getRoles().stream().map(Role::getRole).collect(Collectors.toSet());
         Set<Role> additionalRoles = roleService.getRoleByName(roleNames);
         roles.addAll(additionalRoles);
         user.setRoles(roles);
