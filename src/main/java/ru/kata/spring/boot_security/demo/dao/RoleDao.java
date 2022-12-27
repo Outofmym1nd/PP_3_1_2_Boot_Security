@@ -15,7 +15,7 @@ public interface RoleDao {
 
     Role getRoleById(long id);
 
-    Set<Role> getAllRolesWithoutFirst();
+    Set<Role> getRoles();
 
     Set<Role> getRoleByName(Set<String> name);
 }

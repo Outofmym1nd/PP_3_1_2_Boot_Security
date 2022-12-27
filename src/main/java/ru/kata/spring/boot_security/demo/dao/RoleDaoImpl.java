@@ -32,9 +32,8 @@ public class RoleDaoImpl implements RoleDao {
     }
 
     @Override
-    public Set<Role> getAllRolesWithoutFirst() {
+    public Set<Role> getRoles() {
         List<Role> listRole = entityManager.createQuery("SELECT r FROM Role r", Role.class).getResultList();
-        listRole.remove(0);
         return new HashSet<>(listRole);
     }
 

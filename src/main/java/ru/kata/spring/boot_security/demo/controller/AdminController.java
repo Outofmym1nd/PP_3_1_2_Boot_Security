@@ -36,31 +36,34 @@ public class AdminController {
 
     @GetMapping()
     public String getAllUsers(Principal principal, Model model) {
+        User newUser = new User();
         User user = userService.findUserByEmail(principal.getName());
-        model.addAttribute("user", user);
         String roles = user.showRoles();
+        model.addAttribute("user", user);
+        model.addAttribute("newUser", newUser);
         model.addAttribute("listRole", roles);
         model.addAttribute("listUser", userService.getAllUsers());
+        model.addAttribute("setRoles", roleService.getRoles());
         return "admin";
     }
 
-    @GetMapping("/new")
-    public String newUser(@ModelAttribute("user") User user, Model model) {
-        model.addAttribute("setRoles", roleService.getAllRolesWithoutFirst());
-        return "new";
-    }
+//    @GetMapping("/new")
+//    public String newUser(Model model) {
+//        model.addAttribute("setRoles", roleService.getAllRolesWithoutFirst());
+//        return "new";
+//    }
 
     @PostMapping("/new")
     public String saveUser(@ModelAttribute("user") User user) {
         setRoles(user);
         userService.saveUser(user);
-        return "redirect:/admin/users";
+        return "redirect:/admin";
     }
 
     @GetMapping("/users/{id}")
     public String getUser(@PathVariable(value = "id") Integer id, Model model) {
         model.addAttribute("user", userService.getUser(id));
-        model.addAttribute("setRoles", roleService.getAllRolesWithoutFirst());
+        model.addAttribute("setRoles", roleService.getRoles());
         return "edit";
     }
 
@@ -68,7 +71,7 @@ public class AdminController {
     public String editUser(@ModelAttribute("user") User user) {
         setRoles(user);
         userService.editUser(user);
-        return "redirect:/admin/users";
+        return "redirect:/admin";
     }
 
     private void setRoles(@ModelAttribute("user") User user) {

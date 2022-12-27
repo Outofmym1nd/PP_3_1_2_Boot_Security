@@ -35,8 +35,8 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Set<Role> getAllRolesWithoutFirst() {
-        return roleDao.getAllRolesWithoutFirst();
+    public Set<Role> getRoles() {
+        return roleDao.getRoles();
     }
 
     @Override
