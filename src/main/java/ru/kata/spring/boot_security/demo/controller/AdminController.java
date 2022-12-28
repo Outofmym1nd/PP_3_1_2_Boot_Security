@@ -35,7 +35,7 @@ public class AdminController {
 //    }
 
     @GetMapping()
-    public String getAllUsers(Principal principal, Model model) {
+    public String getAllUsers( Integer id, Principal principal, Model model) {
         User newUser = new User();
         User user = userService.findUserByEmail(principal.getName());
         String roles = user.showRoles();
@@ -44,6 +44,7 @@ public class AdminController {
         model.addAttribute("listRole", roles);
         model.addAttribute("listUser", userService.getAllUsers());
         model.addAttribute("setRoles", roleService.getRoles());
+//        model.addAttribute("currentUser", userService.getUser(id));
         return "admin";
     }
 
@@ -85,6 +86,6 @@ public class AdminController {
     @DeleteMapping("/users/{id}")
     public String removeUserById(@PathVariable(value = "id") Integer id) {
         userService.removeUserById(id);
-        return "redirect:/admin/users";
+        return "redirect:/admin";
     }
 }
