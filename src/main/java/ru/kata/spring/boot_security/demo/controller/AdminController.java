@@ -35,7 +35,7 @@ public class AdminController {
 //    }
 
     @GetMapping()
-    public String getAllUsers( Integer id, Principal principal, Model model) {
+    public String getAllUsers(Integer id, Principal principal, Model model) {
         User newUser = new User();
         User user = userService.findUserByEmail(principal.getName());
         String roles = user.showRoles();
@@ -44,15 +44,8 @@ public class AdminController {
         model.addAttribute("listRole", roles);
         model.addAttribute("listUser", userService.getAllUsers());
         model.addAttribute("setRoles", roleService.getRoles());
-//        model.addAttribute("currentUser", userService.getUser(id));
         return "admin";
     }
-
-//    @GetMapping("/new")
-//    public String newUser(Model model) {
-//        model.addAttribute("setRoles", roleService.getAllRolesWithoutFirst());
-//        return "new";
-//    }
 
     @PostMapping("/new")
     public String saveUser(@ModelAttribute("user") User user) {
