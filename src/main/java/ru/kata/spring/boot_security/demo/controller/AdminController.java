@@ -35,12 +35,11 @@ public class AdminController {
 //    }
 
     @GetMapping()
-    public String getAllUsers(Integer id, Principal principal, Model model) {
-        User newUser = new User();
+    public String getAllUsers(Principal principal, Model model) {
         User user = userService.findUserByEmail(principal.getName());
         String roles = user.showRoles();
         model.addAttribute("user", user);
-        model.addAttribute("newUser", newUser);
+        model.addAttribute("newUser", new User());
         model.addAttribute("listRole", roles);
         model.addAttribute("listUser", userService.getAllUsers());
         model.addAttribute("setRoles", roleService.getRoles());
@@ -56,13 +55,13 @@ public class AdminController {
 
     @GetMapping("/users/{id}")
     public String getUser(@PathVariable(value = "id") Integer id, Model model) {
-        model.addAttribute("user", userService.getUser(id));
+        model.addAttribute("userEdit", userService.getUser(id));
         model.addAttribute("setRoles", roleService.getRoles());
-        return "edit";
+        return "/admin";
     }
 
     @PatchMapping("/users/{id}")
-    public String editUser(@ModelAttribute("user") User user) {
+    public String editUser(@PathVariable(value = "id") Integer id, @ModelAttribute("user") User user) {
         setRoles(user);
         userService.editUser(user);
         return "redirect:/admin";
