@@ -33,11 +33,12 @@
   <div class="row">
 
     <div class="col-md-2 p-0">
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item"></li>
-        <li class="list-group-item active">User</li>
-          <li class="list-group-item vh-100"></li>
-      </ul>
+      <div class="card vh-100">
+        <br>
+        <ul class="list-group list-group-flush" th:each="role : ${userRoles}">
+          <a class="btn btn-primary" th:href="@{/{link}(link=${role.toString().toLowerCase()})}" th:value="${role.getRole()}" th:text="${role.toString()}" role="button">User</a>
+        </ul>
+      </div>
     </div>
 
     <div class="col-md-10">

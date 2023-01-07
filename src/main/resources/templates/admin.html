@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 
 <head>
   <meta charset="utf-8">
@@ -29,24 +29,22 @@
   <div class="row">
 
     <div class="col-md-2 p-0">
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item"></li>
-<!--        ЗНАЧЕНИЯ ДОЛЖНЫ БЫТЬ ИНТЕРАКТИВНЫМИ, И СЮДА РОЛИ ТЯНУТЬ?-->
-        <li class="list-group-item active">Admin</li>
-        <li class="list-group-item vh-100">
-          <a class="text-primary" th:href="@{/user}" style="text-decoration: none">User</a>
-<!--        <li class="list-group-item vh-100 text-primary">User</li>-->
-        </li>
-      </ul>
+      <div class="card vh-100">
+        <br>
+          <ul class="list-group list-group-flush" th:each="role : ${setRoles}">
+            <a class="btn btn-primary" th:href="@{/{link}(link=${role.toString().toLowerCase()})}" th:value="${role.getRole()}" th:text="${role.toString()}" role="button">User</a>
+          </ul>
+      </div>
     </div>
 
     <div class="col-md-10">
       <br>
-      <div class="page-header">
-        <h1>Admin panel</h1>
-      </div>
 
       <div class="container-fluid">
+        <div class="page-header">
+          <h1>Admin panel</h1>
+        </div>
+
         <div class="row">
           <div class="col-md-12">
 
@@ -80,16 +78,16 @@
                       </thead>
                       <tbody>
                       <tr th:each="user : ${listUser}">
-                        <td th:text="${user.getId()}" />
-                        <td th:text="${user.getName()}" />
-                        <td th:text="${user.getLastName()}" />
-                        <td th:text="${user.getAge()}" />
-                        <td th:text="${user.getEmail()}" />
-                        <td th:text="${user.showRoles()}" />
+                        <td th:text="${user.getId()}"/>
+                        <td th:text="${user.getName()}"/>
+                        <td th:text="${user.getLastName()}"/>
+                        <td th:text="${user.getAge()}"/>
+                        <td th:text="${user.getEmail()}"/>
+                        <td th:text="${user.showRoles()}"/>
                         <td>
                           <button type="submit" class="btn btn-info btn-sm" data-toggle="modal" th:data-target="'#edit'+${user.getId()}">Edit</button>
                           <!--MODAL EDIT-->
-                          <form th:action="@{admin/users/{id}(id=${user.getId()})}" th:object="${userEdit}" th:method="PATCH">
+                          <form th:action="@{admin/users/{id}(id=${user.getId()})}" th:object="${newUser}" th:method="PATCH">
                             <div class="modal fade" th:id="'edit'+${user.getId()}" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="editBackdropLabel" aria-hidden="true">
                               <div class="modal-dialog">
                                 <div class="modal-content">
@@ -132,8 +130,10 @@
                                         </div>
                                         <div class="form-group">
                                           <label for="roleEdit">Role</label>
-                                          <select multiple th:value="${user.getRoles()}" th:name="roles" class="form-control form-control-sm" id="roleEdit">
-                                            <option th:each="role : ${setRoles}" th:text="${role.toString()}"></option>
+<!--                                          <select multiple th:value="${user.getRoles()}" th:name="roles" class="form-control form-control-sm" id="roleEdit">-->
+<!--                                            <option th:each="role : ${setRoles}" th:text="${role.toString()}"></option>-->
+                                          <select multiple class="form-control form-control-sm" th:field="*{roles}" id="roleEdit">
+                                            <option th:each="role : ${setRoles}" th:value="${role.getRole()}" th:text="${role.toString()}"></option>
                                           </select>
                                         </div>
                                       </div>
@@ -249,6 +249,7 @@
                           </div>
                           <div class="form-group">
                             <label for="inputRole">Role</label>
+<!--                            <select class="custom-select form-control-sm" multiple th:field="*{roles}" id="inputRole">-->
                             <select multiple class="form-control form-control-sm" th:field="*{roles}" id="inputRole">
                               <option th:each="role : ${setRoles}" th:value="${role.getRole()}" th:text="${role.toString()}"></option>
                             </select>

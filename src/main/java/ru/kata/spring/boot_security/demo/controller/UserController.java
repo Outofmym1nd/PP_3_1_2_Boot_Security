@@ -23,6 +23,7 @@ public class UserController {
     public String getUser(Principal principal, Model model) {
         User user = userService.findUserByEmail(principal.getName());
         model.addAttribute("user", user);
+        model.addAttribute("userRoles", user.getRoles());
         return "user";
     }
 }
