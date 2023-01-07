@@ -130,8 +130,6 @@
                                         </div>
                                         <div class="form-group">
                                           <label for="roleEdit">Role</label>
-<!--                                          <select multiple th:value="${user.getRoles()}" th:name="roles" class="form-control form-control-sm" id="roleEdit">-->
-<!--                                            <option th:each="role : ${setRoles}" th:text="${role.toString()}"></option>-->
                                           <select multiple class="form-control form-control-sm" th:field="*{roles}" id="roleEdit">
                                             <option th:each="role : ${setRoles}" th:value="${role.getRole()}" th:text="${role.toString()}"></option>
                                           </select>
@@ -249,7 +247,6 @@
                           </div>
                           <div class="form-group">
                             <label for="inputRole">Role</label>
-<!--                            <select class="custom-select form-control-sm" multiple th:field="*{roles}" id="inputRole">-->
                             <select multiple class="form-control form-control-sm" th:field="*{roles}" id="inputRole">
                               <option th:each="role : ${setRoles}" th:value="${role.getRole()}" th:text="${role.toString()}"></option>
                             </select>

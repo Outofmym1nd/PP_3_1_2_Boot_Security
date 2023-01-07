@@ -25,15 +25,6 @@ public class AdminController {
         this.roleService = roleService;
     }
 
-//    @GetMapping()
-//    public String getUser(Principal principal, Model model) {
-//        User user = userService.findUserByEmail(principal.getName());
-//        model.addAttribute("user", user);
-//        String roles = user.showRoles();
-//        model.addAttribute("listRole", roles);
-//        return "admin";
-//    }
-
     @GetMapping()
     public String getAllUsers(Principal principal, Model model) {
         User user = userService.findUserByEmail(principal.getName());
