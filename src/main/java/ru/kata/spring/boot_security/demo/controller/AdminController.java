@@ -34,14 +34,14 @@ public class AdminController {
         model.addAttribute("newUser", new User());
         model.addAttribute("listUser", userService.getAllUsers());
         model.addAttribute("setRoles", roleService.getRoles());
-        return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
+        return ResponseEntity.ok(userService.getAllUsers());
     }
 
     @PostMapping
     public ResponseEntity<User> saveUser(@RequestBody User user) {
         setRoles(user);
         userService.saveUser(user);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        return ResponseEntity.ok(user);
     }
 
     @PatchMapping("/users/{id}")
@@ -54,7 +54,7 @@ public class AdminController {
             user.setRoles(roles);
         }
         userService.editUser(user);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        return ResponseEntity.ok(user);
     }
 
     private void setRoles(@ModelAttribute("user") User user) {
