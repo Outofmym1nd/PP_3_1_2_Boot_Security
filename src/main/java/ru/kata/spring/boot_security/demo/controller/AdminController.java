@@ -1,6 +1,7 @@
 package ru.kata.spring.boot_security.demo.controller;
 
-import org.springframework.stereotype.Controller;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.Role;
@@ -9,10 +10,11 @@ import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Controller
+@RestController
 @RequestMapping(value = "/admin")
 public class AdminController {
 
@@ -25,25 +27,26 @@ public class AdminController {
         this.roleService = roleService;
     }
 
-    @GetMapping()
-    public String getAllUsers(Principal principal, Model model) {
+    @GetMapping
+    public ResponseEntity<List<User>> getAllUsers(Principal principal, Model model) {
         User user = userService.findUserByEmail(principal.getName());
         model.addAttribute("user", user);
         model.addAttribute("newUser", new User());
         model.addAttribute("listUser", userService.getAllUsers());
         model.addAttribute("setRoles", roleService.getRoles());
-        return "admin";
+        return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
 
-    @PostMapping("/new")
-    public String saveUser(@ModelAttribute("user") User user) {
+    @PostMapping
+    public ResponseEntity<User> saveUser(@RequestBody User user) {
         setRoles(user);
         userService.saveUser(user);
-        return "redirect:/admin";
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @PatchMapping("/users/{id}")
-    public String editUser(@PathVariable(value = "id") Integer id, @ModelAttribute("user") User user) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public ResponseEntity<User> editUser(@PathVariable Integer id, @RequestBody User user) {
         if (!user.getRoles().isEmpty()) {
             setRoles(user);
         } else {
@@ -51,7 +54,7 @@ public class AdminController {
             user.setRoles(roles);
         }
         userService.editUser(user);
-        return "redirect:/admin";
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     private void setRoles(@ModelAttribute("user") User user) {
@@ -63,8 +66,8 @@ public class AdminController {
     }
 
     @DeleteMapping("/users/{id}")
-    public String removeUserById(@PathVariable(value = "id") Integer id) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void removeUserById(@PathVariable Integer id) {
         userService.removeUserById(id);
-        return "redirect:/admin";
     }
 }
